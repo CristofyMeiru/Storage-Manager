@@ -5,6 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './product.entity';
 import { ProductsRepository } from './products.repository';
 import { serviceCreateProduct } from './services/create-product.service';
+import { serviceFindOneProduct } from './services/find-one-product.service';
 import { serviceDeleteProducts } from './services/remove-many.service';
 
 @Injectable()
@@ -23,8 +24,8 @@ export class ProductsService implements ProductsServiceContract {
     return `This action returns all products`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: string): Promise<Product> {
+    return await serviceFindOneProduct(this.productsRepository, id);
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

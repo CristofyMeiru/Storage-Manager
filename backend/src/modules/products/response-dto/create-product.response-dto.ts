@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { ProductDto } from './product';
+import { ProductDto } from '../dto/product.dto';
 
 export class CreateProductResponseDto {
   @ApiProperty({ type: 'string' })

@@ -4,7 +4,7 @@ import { SearchableProductFields } from '../types/searchable-product-fields.type
 
 export interface ProductsRepositoryContract {
   create(dto: ProductInsert): Promise<Product>;
-  find(fields: SearchableProductFields, options: FindProductsQueryDto): Promise<Product[]>;
-  findUnique(fields: SearchableProductFields): Promise<Product>;
+  find(fields: Partial<SearchableProductFields>, options: FindProductsQueryDto): Promise<Product[]>;
+  findUnique(fields: Partial<SearchableProductFields>): Promise<Product>;
   deleteMany(ids: string[]): Promise<Product[]>;
 }

@@ -3,13 +3,13 @@ import { InternalServerErrorResponseDto } from '@/src/shared/dto/internal-server
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiOkResponse } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
-import { CreateProductResponseDto } from './dto/create-product.response-dto';
 import { DeleteManyProductBodyDto } from './dto/delete-many-products.dto';
-import { DeleteManyProductsResponseDto } from './dto/delete-many-products.response.dto';
 import { FindProductsQueryDto } from './dto/find-products.dto';
-import { ProductDto } from './dto/product';
+import { ProductDto } from './dto/product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
+import { CreateProductResponseDto } from './response-dto/create-product.response-dto';
+import { DeleteManyProductsResponseDto } from './response-dto/delete-many-products.response.dto';
 
 @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
 @ApiBadRequestResponse({ type: BadRequestResponseDto })
@@ -33,9 +33,12 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
+  @ApiOkResponse({ type: ProductDto })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<ProductDto> {
+    const productFinded = await this.productsService.findOne(id);
+
+    return productFinded;
   }
 
   @Patch(':id')

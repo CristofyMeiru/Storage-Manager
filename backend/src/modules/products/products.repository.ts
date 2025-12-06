@@ -4,22 +4,24 @@ import { FindProductsQueryDto } from './dto/find-products.dto';
 import { Product, ProductInsert } from './product.entity';
 import { repoCreateProduct } from './repository/create-product.repository';
 import { repoDeleteProducts } from './repository/delete-products.repository';
+import { repoFindProducts } from './repository/find-products.repository';
+import { repoFindUniqueProduct } from './repository/find-unique-product.repository';
 import { SearchableProductFields } from './types/searchable-product-fields.type';
 
 @Injectable()
 export class ProductsRepository implements ProductsRepositoryContract {
-  create(dto: ProductInsert): Promise<Product> {
-    return repoCreateProduct(dto);
+  async create(dto: ProductInsert): Promise<Product> {
+    return await repoCreateProduct(dto);
   }
-  deleteMany(ids: string[]): Promise<Product[]> {
-    return repoDeleteProducts(ids);
-  }
-
-  find(fields: SearchableProductFields, options: FindProductsQueryDto): Promise<Product[]> {
-    throw new Error('Method not implemented.');
+  async deleteMany(ids: string[]): Promise<Product[]> {
+    return await repoDeleteProducts(ids);
   }
 
-  findUnique(fields: SearchableProductFields): Promise<Product> {
-    throw new Error('Method not implemented.');
+  async find(fields: Partial<SearchableProductFields>, options: FindProductsQueryDto): Promise<Product[]> {
+    return await repoFindProducts(fields, options);
+  }
+
+  async findUnique(fields: Partial<SearchableProductFields>): Promise<Product> {
+    return await repoFindUniqueProduct(fields);
   }
 }
