@@ -3,8 +3,11 @@ import { InternalServerErrorResponseDto } from '@/src/shared/dto/internal-server
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiInternalServerErrorResponse, ApiOkResponse } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductResponseDto } from './dto/create-product.response-dto';
+import { DeleteManyProductBodyDto } from './dto/delete-many-products.dto';
+import { DeleteManyProductsResponseDto } from './dto/delete-many-products.response.dto';
 import { FindProductsQueryDto } from './dto/find-products.dto';
-import { ProductResponseDto } from './dto/product.response-dto';
+import { ProductDto } from './dto/product';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
 
@@ -14,13 +17,17 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @ApiOkResponse({ type: ProductResponseDto })
+  @ApiOkResponse({ type: CreateProductResponseDto })
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto): Promise<CreateProductResponseDto> {
+    const createdProduct = await this.productsService.create(createProductDto);
+    return {
+      message: 'Product successfully created.',
+      product: createdProduct,
+    };
   }
 
-  @ApiOkResponse({ type: ProductResponseDto, isArray: true })
+  @ApiOkResponse({ type: ProductDto, isArray: true })
   @Get()
   findAll(@Query() query: FindProductsQueryDto) {
     return this.productsService.findAll();
@@ -36,8 +43,13 @@ export class ProductsController {
     return this.productsService.update(+id, updateProductDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  @ApiOkResponse({ type: DeleteManyProductsResponseDto })
+  @Delete('bulk')
+  async removeMany(@Body() body: DeleteManyProductBodyDto): Promise<DeleteManyProductsResponseDto> {
+    const deletedProducts = await this.productsService.removeMany(body.ids);
+    return {
+      message: 'Products deleted successfully',
+      deletedProducts,
+    };
   }
 }

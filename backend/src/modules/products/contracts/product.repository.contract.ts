@@ -6,5 +6,5 @@ export interface ProductsRepositoryContract {
   create(dto: ProductInsert): Promise<Product>;
   find(fields: SearchableProductFields, options: FindProductsQueryDto): Promise<Product[]>;
   findUnique(fields: SearchableProductFields): Promise<Product>;
-  deleteById(id: string): Promise<Product>;
+  deleteMany(ids: string[]): Promise<Product[]>;
 }

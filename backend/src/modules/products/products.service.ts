@@ -1,28 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { ProductsServiceContract } from './contracts/product.service.contract';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product, ProductInsert } from './product.entity';
+import { Product } from './product.entity';
 import { ProductsRepository } from './products.repository';
+import { serviceCreateProduct } from './services/create-product.service';
+import { serviceDeleteProducts } from './services/remove-many.service';
 
 @Injectable()
-export class ProductsService {
+export class ProductsService implements ProductsServiceContract {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  create(createProductDto: CreateProductDto): Promise<Product> {
-    const newProduct: ProductInsert = {
-      id: crypto.randomUUID(),
-      name: createProductDto.name,
-      description: createProductDto.description,
-      sku: createProductDto.sku,
-      price: createProductDto.price,
-      stock: createProductDto.stock ?? 0,
-      category: createProductDto.category,
-      brand: createProductDto.brand,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+  async create(dto: CreateProductDto): Promise<Product> {
+    return serviceCreateProduct(this.productsRepository, dto);
+  }
 
-    return this.productsRepository.create(newProduct);
+  async removeMany(ids: string[]): Promise<Product[]> {
+    return serviceDeleteProducts(this.productsRepository, ids);
   }
 
   findAll() {
@@ -35,9 +29,5 @@ export class ProductsService {
 
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
   }
 }
