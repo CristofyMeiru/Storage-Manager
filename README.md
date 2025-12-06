@@ -28,7 +28,7 @@ Este projeto é uma aplicação fullstack para gerenciamento de produtos, compos
 
 - **Tailwind CSS / CSS Modules / Styled Components**: para estilização
 
-## **Estrutura do projeto**
+## 📂 **Estrutura do projeto**
 
 ```text
 /frontend
@@ -56,7 +56,7 @@ Este projeto é uma aplicação fullstack para gerenciamento de produtos, compos
 │  └─ app.module.ts
 ```
 
-## **Funcionalidades**
+## ✅ **Funcionalidades**
 
 ### **Backend**:
 
@@ -80,7 +80,7 @@ Este projeto é uma aplicação fullstack para gerenciamento de produtos, compos
 
 - Integração com a API usando Axios/Fetch
 
-## **Endpoints principais**
+## 🌐 **Endpoints principais**
 
 ```text
 GET /products?limit=20&page=1       # Lista produtos paginados
@@ -96,7 +96,7 @@ Swagger disponível em:
 http://localhost:{{PORT}}/api
 ```
 
-## **Instalação e Execução**
+## ⚙️ **Instalação e Execução**
 
 ### **Backend**
 
@@ -134,7 +134,7 @@ npm start
 http://localhost:{{PORT}}
 ```
 
-## **Boas práticas implementadas**
+## ✅ **Boas práticas implementadas**
 - Validação de dados de entrada no backend
 
 - Transformação automática de query params para tipos corretos
