@@ -33,7 +33,7 @@ export class ProductsController {
     return this.productsService.findAll(query);
   }
 
-  @ApiOkResponse({ type: ProductDto })
+  @ApiOkResponse({ type: ProductDto })  
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<ProductDto> {
     const productFinded = await this.productsService.findOne(id);
