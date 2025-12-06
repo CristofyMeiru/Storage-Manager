@@ -30,7 +30,7 @@ export class ProductsController {
   @ApiOkResponse({ type: ProductDto, isArray: true })
   @Get()
   findAll(@Query() query: FindProductsQueryDto) {
-    return this.productsService.findAll();
+    return this.productsService.findAll(query);
   }
 
   @ApiOkResponse({ type: ProductDto })
