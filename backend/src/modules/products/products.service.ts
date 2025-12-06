@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductInsert } from './product.entity';
+import { Product, ProductInsert } from './product.entity';
 import { ProductsRepository } from './products.repository';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  create(createProductDto: CreateProductDto) {
+  create(createProductDto: CreateProductDto): Promise<Product> {
     const newProduct: ProductInsert = {
       id: crypto.randomUUID(),
       name: createProductDto.name,
