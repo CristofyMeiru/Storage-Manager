@@ -80,7 +80,7 @@ Este projeto é uma aplicação fullstack para gerenciamento de produtos, compos
 
 - Integração com a API usando Axios/Fetch
 
-## \*\*Endpoints principais
+## **Endpoints principais**
 
 ```text
 GET /products?limit=20&page=1       # Lista produtos paginados
