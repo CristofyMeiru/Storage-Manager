@@ -1,21 +1,22 @@
-import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "./app.module";
+import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import corsPlugin from './plugins/cors.plugin';
+import swaggerPlugin from './plugins/swagger.plugin';
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, {
-		bodyParser: false,
-	});
+  const app = await NestFactory.create(AppModule);
 
-	const config = new DocumentBuilder()
-		.setTitle("Cats example")
-		.setDescription("The cats API description")
-		.setVersion("1.0")
-		.addTag("cats")
-		.build();
-	const documentFactory = () => SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup("docs", app, documentFactory);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
-	await app.listen(process.env.PORT ?? 3000, "0.0.0.0");
+  swaggerPlugin(app);
+  corsPlugin(app);
+
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();

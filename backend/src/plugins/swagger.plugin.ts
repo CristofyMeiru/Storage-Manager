@@ -1,19 +1,19 @@
-import type { NestFastifyApplication } from "@nestjs/platform-fastify";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { INestApplication } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-async function swaggerPlugin(instance: NestFastifyApplication): Promise<void> {
-	try {
-		const config = new DocumentBuilder()
-			.setTitle("Cats API")
-			.setDescription("The cats API description")
-			.setVersion("1.0")
-			.addTag("cats")
-			.build();
-		const document = SwaggerModule.createDocument(instance, config);
-		SwaggerModule.setup("api", instance, document);
-	} catch (error) {
-		console.log(error);
-	}
+async function swaggerPlugin(instance: INestApplication): Promise<void> {
+  try {
+    const config = new DocumentBuilder()
+      .setTitle('Storage-Manager')
+      .setDescription('A simple API to manage a store inventory.')
+      .setVersion('1.0')
+      .build();
+    const documentFactory = () =>
+      SwaggerModule.createDocument(instance, config);
+    SwaggerModule.setup('docs', instance, documentFactory);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default swaggerPlugin;
