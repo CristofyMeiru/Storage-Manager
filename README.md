@@ -86,7 +86,7 @@ Este projeto é uma aplicação fullstack para gerenciamento de produtos, compos
 GET /products?limit=20&page=1       # Lista produtos paginados
 POST /products                      # Cria novo produto
 GET /products/:id                   # Busca produto pelo ID
-PATCH /products/:id                   # Atualiza produto
+PATCH /products/:id                 # Atualiza produto
 DELETE /products/:id                # Remove produto
 ```
 

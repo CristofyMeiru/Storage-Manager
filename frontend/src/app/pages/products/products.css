@@ -1,0 +1,47 @@
+@reference "../../../styles.css";
+
+:host {
+  @apply min-h-screen p-16 flex justify-center;
+}
+
+.card {
+  @apply w-2/3;
+}
+
+.products-table {
+  @apply w-full border;
+}
+
+.table-header-cell {
+  @apply text-center;
+}
+
+td {
+  @apply text-center text-sm;
+}
+
+.table-actions-header {
+  @apply mb-4 flex justify-between items-center;
+}
+
+.table-actions-header input {
+  @apply w-1/3;
+}
+
+.enter-actions-animation {
+  animation: slide-left 0.2s;
+}
+.leave-actions-animation {
+  animation: slide-left 0.2s reverse;
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

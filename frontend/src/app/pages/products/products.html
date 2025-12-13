@@ -1,0 +1,75 @@
+@let products = productsQuery.data();
+
+<z-card class="card" zTitle="Products" zDescription="Manage your products ">
+  <z-divider />
+
+  <section class="table-actions-header">
+    <input z-input placeholder="Pesquisar..." type="text" />
+    <div class="space-x-2 flex overflow-hidden">
+      <button z-button><z-icon zType="plus" /> Criar produto</button>
+      @if (selectedItems().size > 0) {
+      <button
+        z-button
+        zType="outline-destructive"
+        animate.leave="leave-actions-animation"
+        animate.enter="enter-actions-animation"
+      >
+        Delete {{ selectedItems().size }} products
+      </button>
+      }
+    </div>
+  </section>
+
+  <table z-table zType="bordered" class="products-table">
+    <thead z-table-header>
+      <tr z-table-row>
+        <th z-table-head class="table-header-cell">
+          <div class="flex justify-center items-center">
+            <z-checkbox
+              [checkedInput]="allSelected()"
+              (checkChange)="toggleAll($event)"
+            ></z-checkbox>
+          </div>
+        </th>
+        @for (column of displayedColumns; track displayedColumns) {
+        <th z-table-head class="table-header-cell">{{ column | titlecase }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody z-table-body>
+      @for (product of products; track product.id){
+      <tr z-table-row [attr.data-state]="isSelected(product.id) ? 'selected' : null">
+        <td z-table-cell>
+          <div class="flex items-center justify-center">
+            <z-checkbox
+              [checkedInput]="isSelected(product.id)"
+              z-checkbox
+              (checkChange)="toggle(product.id)"
+            ></z-checkbox>
+          </div>
+        </td>
+        <td z-table-cell class="text-left!">
+          {{ product.name }}
+        </td>
+        <td z-table-cell>${{ product.price }}</td>
+        <td z-table-cell>
+          {{ product.stock }}
+        </td>
+        <td z-table-cell>
+          {{ product.category }}
+        </td>
+        <td z-table-cell>
+          {{ product.brand }}
+        </td>
+      </tr>
+      } @empty {
+      <tr z-table-row>
+        <td z-table-cell [attr.colspan]="displayedColumns.length + 1">No results.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <button z-button (click)="themeService.toggle()">
+    <z-icon [zType]="themeService.isDarkMode() ? 'moon' : 'sun'" /> Mudar tema
+  </button>
+</z-card>
